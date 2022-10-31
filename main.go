@@ -4,11 +4,14 @@ import (
 	"encoding/json"
 	"fmt"
 	"io/ioutil"
+	"log"
 	"math/rand"
 	"net/http"
 	"os"
 	"strconv"
 	"time"
+
+	"github.com/joho/godotenv"
 )
 
 const (
@@ -287,8 +290,17 @@ func (c *Client) GetRemainingRequestInThisMonth() int32 {
 
 
 func main() {
-	os.Setenv("PexelsToken", "563492ad6f91700001000001ab0efaa0bab643439c5fbcf65d13602c")
-	Token := os.Getenv("PexelsToken")
+	// os.Setenv("PexelsToken", PEXELS_API)
+	// Token := os.Getenv("PexelsToken")
+
+	err := godotenv.Load()
+	if err != nil {
+		log.Printf("Error loading .env file")
+	}
+	Token := os.Getenv("PEXELS_API")
+    if Token == "" {
+        fmt.Println("Kindly Provide An API Key from Pexels..")
+    }
 
 	// defining a function for a client based on the Token
 	var c = NewClient(Token)
@@ -305,5 +317,3 @@ func main() {
 	fmt.Println(result)
 }
 
-
-// API: 563492ad6f91700001000001ab0efaa0bab643439c5fbcf65d13602c
